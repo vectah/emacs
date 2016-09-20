@@ -7,7 +7,10 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (deeper-blue)))
+ '(custom-enabled-themes (quote (solarized-dark)))
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "f9574c9ede3f64d57b3aa9b9cef621d54e2e503f4d75d8613cbcc4ca1c962c21" default)))
  '(ede-project-directories
    (quote
     ("/home/brendan/Desktop/ctest" "/home/brendan/Desktop/c_test")))
@@ -29,6 +32,7 @@
 (setq ido-everywhere t)
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
+(setq initial-buffer-choice "/media/sf_vm_share/master.org") 
 
 ;; run with better defaults
 
@@ -89,3 +93,34 @@
 ;; configure slime
 (setq slime-contribs '(slime-fancy))
 (setq inferior-lisp-program "sbcl")
+
+;; attempt to add project
+(ede-cpp-root-project "vest_charger" :file "/media/sf_vm_share/microchip/harmony/v1_08_01/read_me.txt")
+
+;; set tabs
+(setq-default c-basic-offset 4
+              tab-width 4
+              indent-tabs-mode nil)
+
+;; force redraw
+(add-hook 'isearch-update-post-hook 'redraw-display)
+
+;; add cscope
+(require 'xcscope)
+(cscope-setup)
+
+;; add exuberant ctags
+(setq path-to-ctags "/usr/bin/ctags")
+(defun create-tags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
+)
+
+;; add function-args
+(add-to-list 'load-path "~/.emacs.d/function-args")
+(require 'function-args)
+(fa-config-default)
+
+(load-theme 'solarized-dark t)
